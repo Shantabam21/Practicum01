@@ -42,12 +42,19 @@ public class PersonReader
 
                 // Finally we can read the file LOL!
                 int line = 0;
+                String headline = String.format("%1$-8s %2$-12s %3$-12s %4$-8s %5$4s", "ID#", "FirstName", "LastName", "Title", "YOB");
+                System.out.println(headline);
+                System.out.println("=================================================");
 
                 while (reader.ready()) {
                     rec = reader.readLine();
                     line++;
                     // echo to screen
-                    System.out.printf("\nLine %4d %-60s ", line, rec);
+                    String[] format = rec.split(",");
+
+                    String tst = String.format("%1$-8s %2$-12s %3$-12s %4$-8s %5$4s", format[0], format[1], format[2], format[3], format[4]);
+                    //System.out.printf("\nLine %4d %-60s ", line, rec);
+                    System.out.println(tst);
                 }
                 reader.close(); // must close the file to seal it and flush buffer
                 System.out.println("\n\nData file read!");
