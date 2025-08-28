@@ -21,9 +21,9 @@ public class PersonGenerator {
         String lastName = "";
         String title = "";
         int yearOfBirth = 0;
+        String rec = "";
 
         boolean done = false;
-
         do {
 
             ID = SafeInput.getNonZeroLenString(in, "Enter ID [6 digits]: ");
@@ -32,14 +32,14 @@ public class PersonGenerator {
             title = SafeInput.getNonZeroLenString(in, "Enter title: ");
             yearOfBirth = SafeInput.getRangedInt(in,"Enter birth year: ", 1000, 9999);
 
-            String str = ID + ", " + firstName + ", "  + lastName + ", " + title + ", " + yearOfBirth;
-            records.add(str);
+            rec = ID + ", " + firstName + ", "  + lastName + ", " + title + ", " + yearOfBirth;
+            records.add(rec);
             done = SafeInput.getYNConfirm(in, "Enter Yes or No: ");
         }
 
         while (!done);
             File workingDirectory = new File(System.getProperty("user.dir"));
-            Path file = Paths.get(workingDirectory.getPath() + "\\src\\data.txt");
+            Path file = Paths.get(workingDirectory.getPath() + "\\src\\PersonTestData.txt");
 
             try
             {
