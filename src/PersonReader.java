@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.nio.file.StandardOpenOption.CREATE;
@@ -42,21 +43,56 @@ public class PersonReader
 
                 // Finally we can read the file LOL!
                 int line = 0;
-                String headline = String.format("%1$-8s %2$-12s %3$-12s %4$-8s %5$4s", "ID#", "FirstName", "LastName", "Title", "YOB");
-                System.out.println(headline);
-                System.out.println("=================================================");
+
+                String tst = "";
+                int firstNHighest = "FirstName".length();
+                int secondNHighest = "SecondName".length();
+                int titleHighest = "Title".length();
+                ArrayList<String[]> row  = new ArrayList<String[]>();
 
                 while (reader.ready()) {
                     rec = reader.readLine();
                     line++;
                     // echo to screen
+
                     String[] format = rec.split(",");
 
-                    String tst = String.format("%1$-8s %2$-12s %3$-12s %4$-8s %5$4s", format[0], format[1], format[2], format[3], format[4]);
+                    for (int i = 0; i < format.length; i++) {
+                        format[i] = format[i].trim();
+
+                    }
+                    if (format[1].length() > firstNHighest) {
+                        firstNHighest = format[1].length();
+                    }
+                    if (format[2].length() > secondNHighest) {
+                        secondNHighest = format[2].length();
+                    }
+                    if (format[3].length() > titleHighest) {
+                        titleHighest = format[3].length();
+                    }
+                    row.add(format);
+                    //tst = String.format("%-8s %-" + firstNHighest + "s %-" + secondNHighest + "s %-" + titleHighest + "s %4s", format[0], format[1], format[2], format[3], format[4]);
+                    //n.add(tst);
                     //System.out.printf("\nLine %4d %-60s ", line, rec);
-                    System.out.println(tst);
+
                 }
                 reader.close(); // must close the file to seal it and flush buffer
+                String formatString = String.format("%%-%ds %%-%ds %%-%ds %%-%ds %%-%ds",  8 ,firstNHighest + 2, secondNHighest + 2, titleHighest + 2, 4);
+                String headline = String.format(formatString, "ID#", "FirstName", "LastName", "Title", "YOB");
+                System.out.println(headline);
+                int total = (firstNHighest + 2) + (secondNHighest + 2) + (titleHighest + 2) + 8 + 4;
+                for (int i = 0; i < total; i++) {
+                    System.out.print("=");
+
+                }
+                System.out.println();
+
+                for (String[] format : row) {
+
+                    System.out.println(String.format(formatString, format[0], format[1], format[2], format[3], format[4]));
+                }
+
+
                 System.out.println("\n\nData file read!");
 
 
