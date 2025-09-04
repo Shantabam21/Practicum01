@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 
@@ -14,7 +12,6 @@ public class PersonReader
         JFileChooser chooser = new JFileChooser();
         File selectedFile;
         String rec = "";
-
         try {
             // uses a fixed known path:
             //  Path file = Paths.get("c:\\My Documents\\data.txt");
@@ -42,57 +39,20 @@ public class PersonReader
                         new BufferedReader(new InputStreamReader(in));
 
                 // Finally we can read the file LOL!
-                int line = 0;
 
-                String tst = "";
-                int firstNHighest = "FirstName".length();
-                int secondNHighest = "SecondName".length();
-                int titleHighest = "Title".length();
-                ArrayList<String[]> row  = new ArrayList<String[]>();
-
+                System.out.printf("%-8s %-12s %-12s %-12s %-8s", "ID#", "FirstName", "LastName", "Title", "YOB");
+                System.out.println();
+                System.out.println("=================================================================");
                 while (reader.ready()) {
                     rec = reader.readLine();
-                    line++;
                     // echo to screen
-
-                    String[] format = rec.split(",");
-
-                    for (int i = 0; i < format.length; i++) {
-                        format[i] = format[i].trim();
-
+                    String[] row = rec.split(",\\s*");
+                    if (row.length == 5) {
+                        System.out.printf("%-8s %-12s %-12s %-12s %-8s", row[0], row[1], row[2], row[3],row[4]);
                     }
-                    if (format[1].length() > firstNHighest) {
-                        firstNHighest = format[1].length();
-                    }
-                    if (format[2].length() > secondNHighest) {
-                        secondNHighest = format[2].length();
-                    }
-                    if (format[3].length() > titleHighest) {
-                        titleHighest = format[3].length();
-                    }
-                    row.add(format);
-                    //tst = String.format("%-8s %-" + firstNHighest + "s %-" + secondNHighest + "s %-" + titleHighest + "s %4s", format[0], format[1], format[2], format[3], format[4]);
-                    //n.add(tst);
-                    //System.out.printf("\nLine %4d %-60s ", line, rec);
-
+                    System.out.println();
                 }
                 reader.close(); // must close the file to seal it and flush buffer
-                String formatString = String.format("%%-%ds %%-%ds %%-%ds %%-%ds %%-%ds",  8 ,firstNHighest + 2, secondNHighest + 2, titleHighest + 2, 4);
-                String headline = String.format(formatString, "ID#", "FirstName", "LastName", "Title", "YOB");
-                System.out.println(headline);
-                int total = (firstNHighest + 2) + (secondNHighest + 2) + (titleHighest + 2) + 8 + 4;
-                for (int i = 0; i < total; i++) {
-                    System.out.print("=");
-
-                }
-                System.out.println();
-
-                for (String[] format : row) {
-
-                    System.out.println(String.format(formatString, format[0], format[1], format[2], format[3], format[4]));
-                }
-
-
                 System.out.println("\n\nData file read!");
 
 
@@ -100,10 +60,14 @@ public class PersonReader
             {
                 System.out.println("No file selected!!! ... exiting.\nRun the program again and select a file.");
             }
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e)
+        {
             System.out.println("File not found!!!");
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
